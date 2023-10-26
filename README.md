@@ -14,7 +14,7 @@ This is developed using chat GPT AI and vite + react with the help of Material U
 
 **Client:** React.Js, TailwindCSS, Material UI
 
-**Server:** Lens Protocol
+**Server:** Chat GPT API
 
 
 ## Run Locally
