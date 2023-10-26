@@ -88,7 +88,6 @@ export default function LetterGenerator() {
         })
         .then((e) => {
           if (e?.choices?.[0]?.message?.content) {
-            console.log('check');
             setCounter((prev) => prev + 1);
             setApiResponse(e?.choices?.[0]?.message?.content);
             setIsCopied(false);
@@ -100,8 +99,6 @@ export default function LetterGenerator() {
     }
     setLoading(false);
   };
-
-  console.log(apiResponse, 'counter', counter);
 
   const handleToneChange = (event) => {
     const {
@@ -251,7 +248,7 @@ export default function LetterGenerator() {
                     border-4 border-solid border-t-transparent'
                 ></div>
               )}
-              {counter?.length > 0 ? 'Create more' : 'Generate'}
+              {counter > 0 ? 'Create more' : 'Generate'}
             </Button>
           </section>
         </form>
