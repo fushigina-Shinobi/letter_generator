@@ -74,7 +74,7 @@ export default function LetterGenerator() {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await openai.chat.completions
+      await openai.chat.completions
         .create({
           model: 'gpt-3.5-turbo',
           messages: [
@@ -88,17 +88,20 @@ export default function LetterGenerator() {
         })
         .then((e) => {
           if (e?.choices?.[0]?.message?.content) {
+            console.log('check');
             setCounter((prev) => prev + 1);
+            setApiResponse(e?.choices?.[0]?.message?.content);
+            setIsCopied(false);
           }
         });
-      setApiResponse(result?.choices?.[0]?.message?.content);
-      setIsCopied(false);
     } catch (e) {
       console.log('error', e);
       setApiResponse('Something is going wrong, Please try again.');
     }
     setLoading(false);
   };
+
+  console.log(apiResponse, 'counter', counter);
 
   const handleToneChange = (event) => {
     const {
@@ -130,8 +133,8 @@ export default function LetterGenerator() {
   };
 
   return (
-    <div className='flex h-screen flex-auto justify-center lg:pt-0 pt-20 lg:items-center bg-blue-50'>
-      <main className='flex gap-x-10 w-full px-32 lg:flex-row flex-col gap-y-4 lg:gap-y-0 bg-blue-50 lg:bg-none'>
+    <div className='flex h-full lg:h-screen flex-auto justify-center lg:pt-0 pt-20 lg:items-center bg-blue-50'>
+      <main className='flex gap-x-10 w-full px-10 lg:px-32 lg:flex-row flex-col gap-y-4 lg:gap-y-0 bg-blue-50 lg:bg-none'>
         <form onSubmit={handleSubmit} className='w-full lg:w-1/2'>
           <section className='flex flex-col gap-y-6'>
             <div className='flex flex-col gap-y-2'>
@@ -260,7 +263,7 @@ export default function LetterGenerator() {
             }`}
           >
             {loading ? 'Generating...' : 'Results'}
-            {counter?.length > 0 && !loading && (
+            {counter > 0 && (
               <p className='bg-blue-200 text-xs text-primary px-2 flex items-center justify-center rounded-full'>
                 {counter}
               </p>
@@ -273,12 +276,10 @@ export default function LetterGenerator() {
                 apiResponse?.length === 0 && 'text-gray-tertiary text-sm'
               }`}
             >
-              {apiResponse?.length > 0
-                ? apiResponse
-                : 'Results will be generated here...'}
+              {apiResponse ?? 'Results will be generated here...'}
             </p>
           </div>
-          <div className='flex gap-x-4 mt-2'>
+          <div className='flex gap-x-4 mt-2 mb-4 lg:mb-0'>
             <Tooltip title='Save' color='black' arrow>
               <SaveIcon
                 color='primary'
