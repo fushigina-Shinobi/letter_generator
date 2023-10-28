@@ -166,6 +166,7 @@ export default function LetterGenerator() {
               >
                 Character limit exceeded
               </p>
+
               <p
                 className={`float-right ${
                   prompt?.length <= 300
@@ -297,6 +298,14 @@ export default function LetterGenerator() {
             >
               <ContentCopyIcon color='primary' onClick={handleCopyText} />
             </Tooltip>
+            {apiResponse && (
+              <p>
+                Word Count ~{' '}
+                <span className='text-sm text-gray-secondary'>
+                  {apiResponse?.length}
+                </span>
+              </p>
+            )}
           </div>
         </div>
       </main>
